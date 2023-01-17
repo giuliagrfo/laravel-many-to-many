@@ -29,7 +29,7 @@
     <div class="mb-3">
         <label for="type_id" class="form-label">Types</label>
         <select class="form-select form-select-lg @error('type_id') 'is-invalid' @enderror" name="type_id" id="type_id">
-            <option value="">No Type</option>
+            <option value="" disabled>Select Type</option>
 
             @forelse ($types as $type )
             <option value="{{$type->id}}" {{ old('type_id') == $type->id ? $project->type->id : ''}}>
@@ -49,6 +49,7 @@
             <option value="" disabled>Select technologies</option>
 
             @forelse ($technologies as $technology )
+            @if($errors->any())
             <option value="{{$technology->id}}" {{ in_array($technology->id, old('technologies', [])) ? 'selected' : ''}}>
                 {{$technology->name}}
             </option>
