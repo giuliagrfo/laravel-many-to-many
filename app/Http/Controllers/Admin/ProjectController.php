@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,6 +20,8 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::orderByDesc('id')->get();
+        $technologies = Technology::all();
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -30,6 +33,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
+
         return view('admin.projects.create', compact('types'));
     }
 
@@ -51,7 +56,11 @@ class ProjectController extends Controller
         $project_slug = Project::createSlug($val_data['title']);
         $val_data['slug'] = $project_slug;
         //dd($val_data);
-        Project::create($val_data);
+        $project = Project::create($val_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->attach($val_data['technologies']);
+        }
         return to_route('admin.projects.index')->with('message', 'Project added successfully');
     }
 
@@ -75,6 +84,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
+
         return view('admin.projects.edit', compact('project', 'types'));
     }
 
@@ -99,6 +110,13 @@ class ProjectController extends Controller
         $project_slug = Project::createSlug($val_data['title']);
         $val_data['slug'] = $project_slug;
         $project->update($val_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($val_data['technologies']);
+        } else {
+            $project->technologies()->sync([]);
+        }
+
         return to_route('admin.projects.index')->with('message', 'Project modified');
     }
 
