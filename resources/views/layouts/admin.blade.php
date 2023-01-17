@@ -79,6 +79,20 @@
                                     <i class="fa fa-pencil fa-sm fa-fw" aria-hidden="true"></i> Projects
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file" class="align-text-bottom"></span>
+                                    <i class="fas fa-folder fa-sm fa-fw"></i>
+                                    Types
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="file" class="align-text-bottom"></span>
+                                    <i class="fas fa-code fa-sm fa-fw"></i>
+                                    Technologies
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
