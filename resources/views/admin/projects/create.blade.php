@@ -41,14 +41,15 @@
         <select multiple class="form-select form-select-lg" name="technologies[]" id="technologies">
             <option value="" disabled>Select a Technology</option>
 
-            @foreach ($technologies as $technology )
-            <option value="{{$technology->id}}" {{ in_array('technology_id'), old('technologies', [])) ? 'selected' : '' }}>{{$technology->name}}</option>
+            @forelse ($technologies as $technology )
+            @if($errors->any())
+            <option value="{{$technology->id}}" {{ in_array('technology_id', old('technologies', [])) ? 'selected' : '' }}>{{$technology->name}}</option>
             @else
             <option value="{{$technology->id}}">{{$technology->name}}</option>
             @endif
             @empty
             <option value="" disabled>No Technologies available</option>
-            @endforeach
+            @endforelse
         </select>
         @error('technologies')
         <div class="invalid-feedback">{{ $message }}</div>
